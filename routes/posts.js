@@ -47,4 +47,17 @@ router.delete("/:postID", async (req, res) => {
   }
 });
 
+//update posts
+router.patch("/:postID", async (req, res) => {
+  try {
+    const updatedPost = await Post.updateOne(
+      { _id: req.params.postID },
+      { $set: { title: req.body.title } }
+    );
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 export default router;
