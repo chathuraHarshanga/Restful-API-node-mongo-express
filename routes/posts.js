@@ -3,6 +3,7 @@ import Post from "../models/Post.js";
 
 const router = express.Router();
 
+//get all posts
 router.get("/", async (req, res) => {
   try {
     const posts = await Post.find();
@@ -12,6 +13,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//submit posts
 router.post("/", async (req, res) => {
   const post = new Post({
     title: req.body.title,
@@ -20,6 +22,26 @@ router.post("/", async (req, res) => {
   try {
     const postSave = post.save();
     res.status(200).json(postSave);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//get a spesific post
+router.get("/:postID", async (req, res) => {
+  const post = await Post.findById(req.params.postID);
+  try {
+    res.status(200).json(post);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//delete a post
+router.delete("/:postID", async (req, res) => {
+  try {
+    const deletedPost = await Post.deleteOne({ _id: req.params.postID });
+    res.status(200).json(deletedPost);
   } catch (err) {
     res.json({ message: err });
   }
