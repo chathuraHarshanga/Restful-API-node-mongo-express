@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 //get routes
 import postRoutes from "./routes/posts.js";
@@ -10,6 +11,7 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
+app.use(bodyParser.json());
 //routs
 app.get("/", (req, res) => {
   res.send("home page");
